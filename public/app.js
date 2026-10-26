@@ -54,7 +54,7 @@ async function initApply() {
     const { programme: p } = await api(`/api/programmes?slug=${encodeURIComponent(slug)}`);
     $("title").textContent = p.name;
     document.title = `Apply: ${p.name}`;
-    $("lead").textContent = p.demo ? "This is the demo programme. Applications here are deleted when the demo resets each day." : "Applications are read by the programme's reviewers.";
+    $("lead").textContent = p.demo ? "This is the demo programme. Its admin page is public, so your name, email, phone and organisation are replaced with placeholders: only your answers are kept, until the demo resets." : "Applications are read by the programme's reviewers.";
     if (!p.open) { status("Applications are closed.", "notice-alert"); return; }
     $("a-about").textContent = p.about;
     $("a-about").hidden = !p.about;
