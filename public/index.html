@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Apply Desk: fair, blind review for programme applications</title>
+  <meta name="description" content="A public application form, reviewer links, even workloads, conflicts handled, harsh and lenient reviewers evened out, and a ranked shortlist. Free and open source.">
+  <meta name="color-scheme" content="light dark">
+  <link rel="canonical" href="https://apply-desk-omega.vercel.app/">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232a4fa8'/%3E%3Cpath d='M10 8h9l4 4v12H10z' fill='none' stroke='%23fff' stroke-width='2.4' stroke-linejoin='round'/%3E%3Cpath d='M13 17l2.5 2.5L20 15' fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Apply Desk: fair, blind review for programme applications">
+  <meta property="og:description" content="Application form, blind reviewer links, even workloads and a fair ranked shortlist. Free and open source.">
+  <meta property="og:url" content="https://apply-desk-omega.vercel.app/">
+  <meta property="og:image" content="https://apply-desk-omega.vercel.app/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://apply-desk-omega.vercel.app/og.png">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/app.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="top">
+    <div class="wrap">
+      <p class="crumb"><a href="/">Apply Desk</a></p>
+      <h1 id="title">Pick a cohort fairly, and show your working</h1>
+      <p class="lead" id="lead">One form for applicants. Private links for reviewers, who see answers but never names. Work spread evenly, conflicts handed on, harsh and lenient reviewers evened out, and a ranked shortlist you can defend.</p>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <p id="status" class="notice" role="status" hidden></p>
+
+    <section id="home" hidden>
+      <div class="card">
+        <h2>Try every side of the demo</h2>
+        <p>Demo Hub Accelerator has 12 applications and three reviewers: one lenient, one harsh. It resets every day.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="/m/demo#key=demo">Programme team view</a>
+          <a class="btn" href="/r/demo#key=demo-c">Review as the harsh reviewer</a>
+          <a class="btn" href="/a/demo">Apply to it</a>
+        </div>
+      </div>
+      <form class="card field-stack" id="create">
+        <h2>Start your own</h2>
+        <div class="pair">
+          <div class="field-stack">
+            <div class="field"><label for="c-name">Programme name</label><input id="c-name" name="name" type="text" maxlength="90" required placeholder="Women in Tech Fellowship 2027"></div>
+            <div class="field"><label for="c-about">One line for applicants <span class="hint">(optional)</span></label><input id="c-about" name="about" type="text" maxlength="400"></div>
+            <div class="field"><label for="c-per">Reviewers per application</label><select id="c-per" name="perApp"><option value="1">1</option><option value="2" selected>2</option><option value="3">3</option></select></div>
+          </div>
+          <div class="field-stack">
+            <div class="field"><label for="c-q">Questions, one per line</label><textarea id="c-q" name="questions" rows="4">What are you building, in one sentence?
+Who pays you today, and how much?
+Why your team?</textarea></div>
+            <div class="field"><label for="c-c">Scoring criteria, one per line with a weight from 1 to 5</label><textarea id="c-c" name="criteria" rows="3">Problem, 2
+Traction, 3
+Team, 2</textarea></div>
+          </div>
+        </div>
+        <button class="btn btn-primary" type="submit">Create</button>
+        <p class="hint">No sign-up. You get a private admin link. Applications are deleted 180 days after you create the programme, or when you delete it.</p>
+      </form>
+    </section>
+
+    <form id="apply" class="card field-stack narrow" hidden>
+      <p id="a-about" class="lead"></p>
+      <div class="pair">
+        <div class="field"><label for="a-name">Your name</label><input id="a-name" name="name" type="text" maxlength="80" required autocomplete="name"></div>
+        <div class="field"><label for="a-email">Email</label><input id="a-email" name="email" type="email" maxlength="120" required autocomplete="email"></div>
+        <div class="field"><label for="a-phone">Phone <span class="hint">(optional)</span></label><input id="a-phone" name="phone" type="tel" maxlength="20" autocomplete="tel"></div>
+        <div class="field"><label for="a-org">Startup or organisation <span class="hint">(optional)</span></label><input id="a-org" name="org" type="text" maxlength="100" autocomplete="organization"></div>
+      </div>
+      <div id="a-questions" class="field-stack"></div>
+      <button class="btn btn-primary" type="submit">Send application</button>
+      <p class="hint">Reviewers read your answers without your name, email or organisation.</p>
+    </form>
+    <section id="applied" class="card narrow" hidden><h2>Application received</h2><p id="applied-text"></p></section>
+
+    <section id="admin" hidden>
+      <div class="tiles">
+        <div class="tile"><span class="tile-label">Applications</span><span class="tile-value" id="t-apps"></span><span class="tile-sub" id="t-apps-sub"></span></div>
+        <div class="tile"><span class="tile-label">Reviews done</span><span class="tile-value" id="t-done"></span><span class="tile-sub" id="t-done-sub"></span></div>
+        <div class="tile"><span class="tile-label">Unassigned slots</span><span class="tile-value" id="t-open"></span><span class="tile-sub" id="t-open-sub"></span></div>
+        <div class="tile"><span class="tile-label">Ready to decide</span><span class="tile-value" id="t-ready"></span><span class="tile-sub">fully reviewed</span></div>
+      </div>
+      <div class="pair">
+        <section class="card" aria-labelledby="rev-h">
+          <div class="head-row"><h2 id="rev-h">Reviewers</h2><button class="btn btn-primary" type="button" id="assign">Assign reviewers</button></div>
+          <ul class="revs" id="revs"></ul>
+          <form id="add-rev" class="copy-row"><label for="rev-name" class="visually-hidden">New reviewer's name</label><input id="rev-name" type="text" maxlength="60" placeholder="New reviewer's name" required><button class="btn" type="submit">Add</button></form>
+          <div id="new-link" class="notice" hidden><p>Send this link to <strong id="new-link-name"></strong>. It is shown only once:</p><div class="copy-row"><input id="new-link-url" type="text" readonly aria-label="Reviewer link"><button class="btn" type="button" data-copy="new-link-url">Copy</button></div></div>
+        </section>
+        <section class="card" aria-labelledby="share-h">
+          <h2 id="share-h">Links</h2>
+          <div class="field"><label for="apply-link">Application form (public)</label><div class="copy-row"><input id="apply-link" type="text" readonly><button class="btn" type="button" data-copy="apply-link">Copy</button></div></div>
+          <div class="field"><label for="admin-link">This admin page (private)</label><div class="copy-row"><input id="admin-link" type="text" readonly><button class="btn" type="button" data-copy="admin-link">Copy</button></div></div>
+          <div class="actions spaced" id="prog-actions"></div>
+        </section>
+      </div>
+      <section class="card" aria-labelledby="rank-h">
+        <div class="head-row">
+          <h2 id="rank-h">Ranking</h2>
+          <div class="actions"><label class="hint" for="topn">Shortlist <input id="topn" type="number" min="1" max="200" value="5" inputmode="numeric"></label><button class="btn" type="button" id="csv">Download CSV</button></div>
+        </div>
+        <p class="hint">Score is out of 100 after evening out each reviewer with 3 or more reviews. Raw is the plain average. Open a row to see every review.</p>
+        <div class="table-scroll">
+          <table class="rank">
+            <thead><tr><th scope="col" class="num">#</th><th scope="col">Application</th><th scope="col" class="num">Score</th><th scope="col" class="num">Raw</th><th scope="col">Reviews</th><th scope="col">Flags</th></tr></thead>
+            <tbody id="rank"></tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+
+    <section id="review" hidden>
+      <div class="head-row"><p class="summary" id="r-progress"></p><label class="hint" for="r-show">Show <select id="r-show"><option value="todo">to review</option><option value="all">all</option></select></label></div>
+      <div class="review-grid">
+        <ol class="queue" id="queue"></ol>
+        <form id="score" class="card field-stack" hidden>
+          <h2 id="s-ref"></h2>
+          <div id="s-answers" class="answers"></div>
+          <div id="s-criteria" class="field-stack"></div>
+          <div class="field"><label for="s-note">Note for the programme team <span class="hint">(optional)</span></label><textarea id="s-note" rows="3" maxlength="1000"></textarea></div>
+          <div class="actions"><button class="btn btn-primary" type="submit">Save and next</button><button class="btn" type="button" id="conflict">I have a conflict of interest</button></div>
+        </form>
+      </div>
+    </section>
+  </main>
+  <footer class="wrap foot">
+    <p>Open source: <a href="https://github.com/bytemel/apply-desk">github.com/bytemel/apply-desk</a>. Built by <a href="https://timmwangi.com">Timothy Mwangi</a>.</p>
+  </footer>
+</body>
+</html>

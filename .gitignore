@@ -1,0 +1,7 @@
+node_modules/
+.vercel/
+.env*
+!.env.example
+AGENTS.md
+CLAUDE.md
+.vercel
